@@ -1,6 +1,7 @@
 package com.example.carinspection.data.drive
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -20,17 +21,25 @@ class DriveUploadWorker(
         val overwrite = inputData.getBoolean(KEY_OVERWRITE, false)
 
         val account = GoogleSignIn.getLastSignedInAccount(applicationContext)
-            ?: return@withContext Result.retry()
-
-        val drive = DriveServiceFactory.create(applicationContext, account)
-        val repository = GoogleDriveRepository(drive)
-        val folderId = repository.getOrCreateFolder(folderName)
-        if (overwrite) {
-            repository.uploadOrUpdateFile(File(filePath), mimeType, folderId, targetName)
-        } else {
-            repository.uploadFile(File(filePath), mimeType, folderId, targetName)
+        if (account == null) {
+            Log.w("DriveUploadWorker", "Skipping upload: No Google Account signed in.")
+            return@withContext Result.success()
         }
-        Result.success()
+
+        try {
+            val drive = DriveServiceFactory.create(applicationContext, account)
+            val repository = GoogleDriveRepository(drive)
+            val folderId = repository.getOrCreateFolder(folderName)
+            if (overwrite) {
+                repository.uploadOrUpdateFile(File(filePath), mimeType, folderId, targetName)
+            } else {
+                repository.uploadFile(File(filePath), mimeType, folderId, targetName)
+            }
+            Result.success()
+        } catch (e: Exception) {
+            Log.e("DriveUploadWorker", "Error uploading file", e)
+            Result.retry()
+        }
     }
 
     companion object {

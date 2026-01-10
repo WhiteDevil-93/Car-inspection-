@@ -30,7 +30,8 @@ android {
                 "META-INF/NOTICE",
                 "META-INF/NOTICE.txt",
                 "META-INF/LICENSE",
-                "META-INF/LICENSE.txt"
+                "META-INF/LICENSE.txt",
+                "META-INF/INDEX.LIST"
             )
         }
     }
@@ -54,10 +55,11 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material:material-icons-extended")
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    implementation("androidx.compose.material3:material3-window-size-class:1.2.1")
+    implementation("androidx.compose.material3:material3-window-size-class")
 
     implementation("androidx.camera:camera-core:1.3.2")
     implementation("androidx.camera:camera-camera2:1.3.2")
@@ -65,8 +67,9 @@ dependencies {
     implementation("androidx.camera:camera-view:1.3.2")
 
     implementation("com.google.android.gms:play-services-auth:21.0.0")
-    implementation("com.google.api-client:google-api-client-android:1.34.1")
-    implementation("com.google.api-client:google-api-client-gson:1.34.1")
+    implementation("com.google.api-client:google-api-client:2.8.1")
+    implementation("com.google.api-client:google-api-client-android:2.8.1")
+    implementation("com.google.api-client:google-api-client-gson:2.8.1")
     implementation("com.google.apis:google-api-services-drive:v3-rev20230815-2.0.0")
     implementation("org.apache.poi:poi-ooxml:5.2.5")
 
