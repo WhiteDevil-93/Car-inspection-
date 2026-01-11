@@ -3,6 +3,7 @@ package com.example.carinspection.ui
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.carinspection.auth.DriverInfoManager
 import com.example.carinspection.data.InspectionRepository
 import com.example.carinspection.data.excel.ExcelDailyInspectionWriter
 import com.example.carinspection.data.model.DailyInspection
@@ -14,7 +15,9 @@ import java.io.File
 import java.time.LocalDate
 
 class InspectionViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = InspectionRepository(application, ExcelDailyInspectionWriter())
+
+    private val driverInfoManager = DriverInfoManager(application)
+    private val repository = InspectionRepository(getApplication(), ExcelDailyInspectionWriter())
 
     private val _weeklyStep = MutableStateFlow(WeeklyInspectionStep.FRONT_VIEW)
     val weeklyStep: StateFlow<WeeklyInspectionStep> = _weeklyStep
